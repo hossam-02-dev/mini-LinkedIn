@@ -1,0 +1,20 @@
+package repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import entities.CommentaireEntity;
+
+@Repository
+public interface CommentaireRepository extends JpaRepository<CommentaireEntity, Long> {
+	
+	List<CommentaireEntity> findByPublicationId(Long publicationId);
+	
+	List<CommentaireEntity> findByAuteurId(Long auteurId);
+	
+	long countByPublicationId(Long publicationId);
+	
+	void deleteByPublicationId(Long publicationId);
+
+}
