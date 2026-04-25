@@ -1,7 +1,12 @@
 package com.example.miniLinkedin.entities;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.miniLinkedin.enums.Role;
 
@@ -25,7 +30,7 @@ import lombok.Setter;
 @Entity @AllArgsConstructor @NoArgsConstructor @Getter @Setter @Builder
 
 @Table(name = "users")
-public class UserEntity {
+public class UserEntity implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,7 +57,7 @@ public class UserEntity {
 		@Enumerated(EnumType.STRING)
 		private Role role;
 		
-		@Column(nullable = false)
+		
 		private boolean isActive;
 		
 @OneToOne
@@ -91,6 +96,53 @@ private List<NotificationEntity> notificationsDeclenchees;
 
 @OneToMany(mappedBy = "auteur")
 private List<PublicationEntity> publications;
+
+@Override
+public Collection<? extends GrantedAuthority> getAuthorities() {
+	
+	return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+}
+
+@Override
+public String getUsername() {
+	
+	return email;
+}
+
+@Override
+public String getPassword() {
+	return  password;
+}
+
+@Override
+public boolean isAccountNonExpired() {
+	return true;
+
+}
+
+@Override
+public boolean isAccountNonLocked() {
+	return true;
+	
+}
+
+@Override
+
+public boolean isCredentialsNonExpired() {
+	return true;
+	
+}
+
+@Override
+
+public boolean isEnabled() {
+	return isActive;
+	
+}
+
+
+
+
 
 	
 

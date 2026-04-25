@@ -1,5 +1,7 @@
 package com.example.miniLinkedin.mapping;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,6 +16,8 @@ public interface UserMapper {
     expression = "java(user.getRole().name())")
 	
 	UserResponseDto toDto (UserEntity user);
+	
+	List<UserResponseDto> toDtoList(List<UserEntity> users);
 	
 	@Mapping(target ="id", ignore = true)
 	@Mapping(target ="createdAt", ignore = true)

@@ -1,7 +1,10 @@
 package com.example.miniLinkedin.dtos;
 
+import com.example.miniLinkedin.enums.Role;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,5 +30,8 @@ public class RegisterRequestDto {
 	
 	@NotBlank(message = "La confirmation du mot de passe ne peut pas être vide")
 	private String confirmPassword;
+	
+@NotNull(message = "le role ne peut pas être nul ")
+private Role role;
 
 }

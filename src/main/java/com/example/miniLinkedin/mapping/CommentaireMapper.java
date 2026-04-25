@@ -1,5 +1,7 @@
 package com.example.miniLinkedin.mapping;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -20,5 +22,7 @@ public interface CommentaireMapper {
 	@Mapping(source = "auteur.lastName", target = "nomAuteur")
 	@Mapping(source = "auteur.id", target = "auteurId")
 	CommentaireResponseDto toDto(CommentaireEntity entity);
-
+	
+	
+	List<CommentaireResponseDto> toDtoList(List<CommentaireEntity> entities);
 }

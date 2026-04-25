@@ -1,5 +1,7 @@
 package com.example.miniLinkedin.mapping;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -20,5 +22,7 @@ MessageResponseDto toDto (MessageEntity message);
 	@Mapping(target = "lu" , ignore = true)
 	@Mapping(target = "dateEnvoi" , ignore = true)
 	MessageEntity toEntity (MessageRequestDto dto);
+	
+	List<MessageResponseDto> toDtoList (List<MessageEntity> messages);
 
 }

@@ -22,4 +22,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     // Administration
     List<UserEntity> findByRole(Role role);
     List<UserEntity> findByIsActive(boolean isActive);
+    
 }

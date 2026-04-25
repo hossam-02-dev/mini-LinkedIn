@@ -39,7 +39,7 @@ private String imageUrl;
 @Column(nullable = false)
 private LocalDateTime datePublication;
 
-@Column(nullable = false)
+
 private LocalDateTime dateMaj;
 
 @OneToMany(mappedBy = "publication")

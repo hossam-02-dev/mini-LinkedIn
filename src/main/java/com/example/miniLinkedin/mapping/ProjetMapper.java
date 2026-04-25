@@ -1,5 +1,7 @@
 package com.example.miniLinkedin.mapping;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -14,7 +16,7 @@ public interface ProjetMapper {
 	
 	@Mapping(source = "user.id",    target = "auteurId")
 	@Mapping(target = "nomAuteur",  source = "user", qualifiedByName = "mapNomAuteur")
-	@Mapping(target = "dateMaj",    ignore = true)
+	
 	ProjetResponseDto toDto(ProjetEntity projet);
 	
 	
@@ -24,7 +26,7 @@ public interface ProjetMapper {
     @Mapping(target = "dateMaj", ignore = true)
 	ProjetEntity toEntity(ProjetRequestDto requestDto);
 	
-	
+	List<ProjetResponseDto> toDtoList(List<ProjetEntity> entities);
 	
 	
 	

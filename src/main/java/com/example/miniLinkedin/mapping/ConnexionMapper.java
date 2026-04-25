@@ -1,5 +1,7 @@
 package com.example.miniLinkedin.mapping;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -15,6 +17,7 @@ public interface ConnexionMapper {
 	@Mapping(target = "statutConnexion", expression = "java(entity.getStatut().name())")
 	ConnexionResponseDto toDto(ConnexionEntity entity);
 	
+	List<ConnexionResponseDto> toDtoList(List<ConnexionEntity> entities);
 	
 	@Mapping(target = "demandeur" , ignore = true)
 	@Mapping(target = "destinataire" , ignore = true)

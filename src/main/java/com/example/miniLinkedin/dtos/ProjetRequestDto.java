@@ -1,7 +1,7 @@
 package com.example.miniLinkedin.dtos;
 
+
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +31,8 @@ public class ProjetRequestDto {
 	
 	@NotBlank(message = "l'url de l'image du projet est obligatoire")
 	private String imageUrl;
+
+	
 	
 	
 

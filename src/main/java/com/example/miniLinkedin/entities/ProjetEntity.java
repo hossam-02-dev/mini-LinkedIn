@@ -44,7 +44,6 @@ private String imageUrl;
 @Column(nullable = false)
 private LocalDateTime dateCreation;
 
-@Column(nullable = false)
 private LocalDateTime dateMaj;
 
 @ManyToOne

@@ -24,6 +24,8 @@ public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
 
     
     List<MessageEntity> findByDestinataireIdAndLu(Long destinataireId, boolean lu);
+    
+    List<MessageEntity> findByDestinataireIdAndLuFalse(Long userId);
 
     
     long countByDestinataireIdAndLu(Long destinataireId, boolean lu);

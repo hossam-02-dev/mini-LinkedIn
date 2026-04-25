@@ -28,7 +28,7 @@ public interface ConnexionRepository extends JpaRepository<ConnexionEntity, Long
     
     @Query("SELECT c FROM ConnexionEntity c WHERE " +
             "(c.demandeur.id = :userId OR c.destinataire.id = :userId) " +
-            "AND c.statut = 'ACCEPTE'")
+            "AND c.statut = 'ACCEPTEE'")
     
      List<ConnexionEntity> findConnexionsAccepteesParUserId(@Param("userId") Long userId);
  }

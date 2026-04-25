@@ -1,5 +1,9 @@
 package com.example.miniLinkedin.mapping;
 
+
+
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -11,7 +15,10 @@ import com.example.miniLinkedin.entities.FormationEntity;
 public interface FormationMapper {
 	
 	@Mapping(source ="profil.id" , target = "profilId")
-	FormationResponseDto toDto (FormationEntity formation);
+	FormationResponseDto toDto (FormationEntity formations);
+	
+	
+	List<FormationResponseDto> toDtoList(List<FormationEntity> entities);
 	
 	@Mapping(target = "profil" , ignore = true)
 	FormationEntity toEntity (FormationRequestDto dto);
