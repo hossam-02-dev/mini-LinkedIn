@@ -1,0 +1,92 @@
+package com.example.miniLinkedin.services;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.miniLinkedin.dtos.ProfilRequestDto;
+import com.example.miniLinkedin.dtos.ProfilResponseDto;
+import com.example.miniLinkedin.entities.ProfilEntity;
+import com.example.miniLinkedin.entities.UserEntity;
+import com.example.miniLinkedin.exceptions.ResourceNotFoundException;
+import com.example.miniLinkedin.mapping.ProfilMapper;
+import com.example.miniLinkedin.repositories.ProfilRepository;
+import com.example.miniLinkedin.repositories.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ProfilService {
+
+    private final ProfilRepository profilRepository;
+    private final ProfilMapper profilMapper;
+    private final UserRepository userRepository;
+
+    @Transactional(readOnly = true)
+    public ProfilResponseDto getProfilByUserId(Long userId) {
+        // Chercher le profil par l'ID de l'utilisateur
+        ProfilEntity profil = profilRepository.findByUserId(userId).orElseGet(() -> {
+            // Créer un profil par défaut s'il n'existe pas
+            UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+            ProfilEntity newProfil = new ProfilEntity();
+            newProfil.setUser(user);
+            newProfil.setName(user.getFirstName() + " " + user.getLastName());
+            newProfil.setBio("");
+            newProfil.setVille("");
+            newProfil.setEtablissement("");
+            newProfil.setSiteWeb("");
+            newProfil.setPhotoUrl("");
+            newProfil.setDateNaissance(null);
+            return profilRepository.save(newProfil);
+        });
+        return profilMapper.toDto(profil);
+    }
+
+    @Transactional
+    public ProfilResponseDto createProfil(Long userId, ProfilRequestDto dto) {
+        // Vérifier si l'utilisateur a déjà un profil (optionnel)
+        if (profilRepository.findByUserId(userId).isPresent()) {
+            throw new IllegalStateException("Cet utilisateur a déjà un profil");
+        }
+        UserEntity user = userRepository.findById(userId)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        ProfilEntity profil = new ProfilEntity();
+        profil.setUser(user);
+        profil.setName(dto.getName());
+        profil.setVille(dto.getVille());
+        profil.setEtablissement(dto.getEtablissement());
+        profil.setBio(dto.getBio());
+        profil.setSiteWeb(dto.getSiteWeb());
+        profil.setPhotoUrl(dto.getPhotoUrl());
+        profil.setDateNaissance(dto.getDateNaissance());
+        profilRepository.save(profil);
+        return profilMapper.toDto(profil);
+    }
+
+    @Transactional
+    public ProfilResponseDto updateProfil(Long profilId, ProfilRequestDto dto) {
+        // Ici profilId est l'ID du profil (pas celui de l'utilisateur)
+        ProfilEntity profil = profilRepository.findById(profilId)
+            .orElseThrow(() -> new ResourceNotFoundException("Profil not found with id: " + profilId));
+        profil.setName(dto.getName());
+        profil.setVille(dto.getVille());
+        profil.setEtablissement(dto.getEtablissement());
+        profil.setBio(dto.getBio());
+        profil.setSiteWeb(dto.getSiteWeb());
+        profil.setPhotoUrl(dto.getPhotoUrl());
+        profil.setDateNaissance(dto.getDateNaissance());
+        profilRepository.save(profil);
+        return profilMapper.toDto(profil);
+    }
+
+    @Transactional
+    public ProfilResponseDto uploadPhoto(Long profilId, String photoUrl) {
+        // Ici aussi, profilId est l'ID du profil
+        ProfilEntity profil = profilRepository.findById(profilId)
+            .orElseThrow(() -> new ResourceNotFoundException("Profil not found with id: " + profilId));
+        profil.setPhotoUrl(photoUrl);
+        profilRepository.save(profil);
+        return profilMapper.toDto(profil);
+    }
+}
